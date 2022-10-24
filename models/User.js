@@ -3,9 +3,15 @@ const usersCollection = require("../db").db().collection("users");
 const validator = require("validator");
 const md5 = require("md5");
 
-let User = function (data) {
+let User = function (data, getAvatar) {
   this.data = data;
   this.errors = [];
+  if (getAvatar == undefined) {
+    getAvatar = false;
+  }
+  if (getAvatar) {
+    this.getAvatar();
+  }
 };
 
 User.prototype.cleanUp = function () {
@@ -119,6 +125,33 @@ User.prototype.register = function () {
 
 User.prototype.getAvatar = function () {
   this.avatar = `https://gravatar.com/avatar/${md5(this.data.email)}?s=128`;
+};
+
+User.findByUsername = function (username) {
+  return new Promise((resolve, reject) => {
+    if (typeof username != "string") {
+      reject();
+      return;
+    }
+    usersCollection
+      .findOne({ username: username })
+      .then((userDoc) => {
+        if (userDoc) {
+          userDoc = new User(userDoc, true);
+          userDoc = {
+            _id: userDoc.data._id,
+            username: userDoc.data.username,
+            avatar: userDoc.avatar,
+          };
+          resolve(userDoc);
+        } else {
+          reject();
+        }
+      })
+      .catch(() => {
+        reject();
+      });
+  });
 };
 
 module.exports = User;
