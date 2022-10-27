@@ -62,17 +62,14 @@ User.prototype.validate = function () {
 
     // Only if username is valid check to see if it is already taken
     if (!this.errors.length) {
-      console.log("There be no errors.");
       let usernameExists = await usersCollection.findOne({ username: this.data.username });
       if (usernameExists) {
         this.errors.push("That username is already taken.");
-        console.log("username errors be pushed. ");
         // if username is not taken, check if email is taken
       } else {
         let emailExists = await usersCollection.findOne({ email: this.data.email });
         if (emailExists) {
           this.errors.push("That email is already being used.");
-          console.log("email errors be pushed. ");
         }
       }
     }
