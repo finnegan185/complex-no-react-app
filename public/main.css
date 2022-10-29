@@ -169,7 +169,7 @@ textarea.tall-textarea {
 }
 
 .search-overlay-icon {
-  color: #007bff;
+  color: #6610f2;
   font-size: 1.4rem;
   margin: 0;
   margin-right: 10px;
@@ -181,7 +181,7 @@ textarea.tall-textarea {
   font-size: 1.1rem;
   outline: none;
   flex: 1;
-  color: #007bff;
+  color: #6610f2;
 }
 
 .live-search-results {
@@ -193,6 +193,11 @@ textarea.tall-textarea {
 .live-search-results--visible {
   opacity: 1;
   transform: scale(1);
+}
+
+.list-group-item--purple {
+  background-color: #6610f2;
+  border-color: #6610f2;
 }
 
 .search-overlay-top {
@@ -347,7 +352,7 @@ textarea.tall-textarea {
   text-align: right;
   padding: 4px 7px;
   border-radius: 12px;
-  background-color: #007bff;
+  background-color: #6610f2;
   color: #fff;
 }
 
