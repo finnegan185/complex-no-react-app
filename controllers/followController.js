@@ -15,7 +15,6 @@ exports.addFollow = function (req, res) {
 };
 
 exports.removeFollow = function (req, res) {
-  console.log("got to remove follow in follow controller.");
   let follow = new Follow(req.params.username, req.visitorId);
   follow
     .delete()

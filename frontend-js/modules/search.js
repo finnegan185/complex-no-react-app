@@ -20,7 +20,6 @@ export default class Search {
   events() {
     this.inputField.addEventListener("keyup", (e) => this.keyPressHandler());
     this.closeIcon.addEventListener("click", () => {
-      console.log("closeIcon event listener added.");
       this.closeOverlay();
     });
     this.headerSearchIcon.addEventListener("click", (e) => {

@@ -10,8 +10,6 @@ exports.sharedProfileData = async function (req, res, next) {
     isFollowing = await Follow.isVisitorFollower(req.profileUser._id, req.visitorId);
   }
 
-  // console.log("req.profile.user " + req.profileUser);
-
   req.isVisitorsProfile = isVisitorsProfile;
   req.isFollowing = isFollowing;
 
@@ -89,8 +87,7 @@ exports.home = async function (req, res) {
   if (req.session.user) {
     // fetch feed of posts for current user
     let posts = await Post.getFeed(req.session.user._id);
-    console.log(posts);
-    res.render("home-dashboard", { posts: posts });
+    res.render("home-dashboard", { posts: posts, title: "Home Page Feed" });
   } else {
     res.render("home-guest", { regErrors: req.flash("regErrors") });
   }
@@ -103,7 +100,7 @@ exports.ifUserExists = function (req, res, next) {
       next();
     })
     .catch(() => {
-      res.render("404");
+      res.render("404", { title: "Oops" });
     });
 };
 
@@ -112,6 +109,7 @@ exports.profilePostsScreen = function (req, res) {
   Post.findByAuthorId(req.profileUser._id)
     .then((posts) => {
       res.render("profile", {
+        title: `Profile for ${req.profileUser.username}`,
         currentPage: "posts",
         posts: posts,
         profileUsername: req.profileUser.username,
@@ -122,7 +120,7 @@ exports.profilePostsScreen = function (req, res) {
       });
     })
     .catch(() => {
-      res.render("404");
+      res.render("404", { title: "Oops" });
     });
 };
 
@@ -130,6 +128,7 @@ exports.profileFollowersScreen = async function (req, res) {
   try {
     let followers = await Follow.getFollowersById(req.profileUser._id);
     res.render("profile-followers", {
+      title: `Profile for ${req.profileUser.username}`,
       currentPage: "followers",
       followers: followers,
       profileUsername: req.profileUser.username,
@@ -139,7 +138,7 @@ exports.profileFollowersScreen = async function (req, res) {
       profileCounts: req.profileCounts,
     });
   } catch {
-    res.render("404");
+    res.render("404", { title: "Oops" });
   }
 };
 
@@ -147,6 +146,7 @@ exports.profileFollowingScreen = async function (req, res) {
   try {
     let follows = await Follow.getFollowsById(req.profileUser._id);
     res.render("profile-following", {
+      title: `Profile for ${req.profileUser.username}`,
       currentPage: "following",
       follows: follows,
       profileUsername: req.profileUser.username,
@@ -156,6 +156,6 @@ exports.profileFollowingScreen = async function (req, res) {
       profileCounts: req.profileCounts,
     });
   } catch {
-    res.render("404");
+    res.render("404", { title: "Oops" });
   }
 };
