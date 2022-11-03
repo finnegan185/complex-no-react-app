@@ -8,6 +8,11 @@ const app = express();
 
 const sanitizeHTML = require("sanitize-html");
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use("/api", require("./router-api"));
+
 let sessionOptions = session({
   secret: "Javascript is cool ish",
   store: MongoStore.create({ client: require("./db") }),
@@ -45,9 +50,6 @@ app.use(function (req, res, next) {
 });
 
 const router = require("./router");
-
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 app.use(express.static("public"));
 app.set("views", "views");
