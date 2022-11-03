@@ -14,6 +14,8 @@
       <textarea required name="body" type="text" id="post-body" class="body-content tall-textarea form-control"></textarea>
     </div>
 
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+
     <button class="btn btn-primary">Save New Post</button>
   </form>
 </div>
